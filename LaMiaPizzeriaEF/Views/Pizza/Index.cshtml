@@ -1,5 +1,41 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<Pizza>
 @{
+    Layout = "_Header";
+
+    void PizzaCard(Pizza pizza) {
+        <div class="col-lg-4 col d-flex justify-content-center">
+            <div class="card" style="width: 18rem;">
+                <img src="@pizza.PictureUrl" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">@pizza.Name</h5>
+                    <p class="card-text">@pizza.Description</p>
+                    <a href="@Url.Action("Pizza", "Pizza", new {id=pizza.Id})" class="btn btn-primary">
+                        <span class="material-symbols-outlined m-0">
+                            info
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
 }
+
+<div class="container mt-5">
+    <div class="row g-5 align-content-between">
+        @if (Model == null || !Model.Any()) {
+            <div class="col-lg-4 col d-flex justify-content-center">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Non ci sono pizze nell'applicazione :(</h5>
+                        <p class="card-text">Chiedo scusa!</p>
+                    </div>
+                </div>
+            </div>
+        }
+        else {
+            foreach (var pizza in Model) {
+                PizzaCard(pizza);
+            }
+        }
+    </div>
+</div>
