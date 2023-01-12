@@ -1,4 +1,32 @@
-﻿@{
+﻿@model Pizza
+@{
     Layout = "_Header";
 }
 
+<form asp-controller="Pizza" asp-action="New" method="post">
+    @Html.AntiForgeryToken()
+    <div class="container-fluid d-flex flex-column align-items-center my-3">
+        <div class="row g-5 w-100">
+            <div class="col col-lg-4">
+                <label for="pizzaName" class="form-label">Nome</label>
+                <input asp-for="Name" type="text" class="form-control" id="pizzaName" aria-describedby="pizzaNameHelp">
+                <div id="pizzaNameHelp" class="form-text">Il nome della pizza</div>
+            </div>
+            <div class="col col-lg-4">
+                <label for="pizzaImage" class="form-label">Link Immagine</label>
+                <input asp-for="PictureUrl" type="text" class="form-control" id="pizzaImage" aria-describedby="pizzaImgHelp">
+                <div id="pizzaImgHelp" class="form-text">Il link della pizza. Assicurati che punti ad un file .png or .jpg!</div>
+            </div>
+            <div class="col col-lg-4">
+                <label for="pizzaPrice" class="form-label">Prezzo</label>
+                <input asp-for="Price" type="number" class="form-control" id="pizzaPrice" aria-describedby="pizzaImgHelp" step=".01">
+                <div id="pizzaImgHelp" class="form-text">Il prezzo della pizza.</div>
+            </div>
+            <div class="col">
+                <label for="pizzaDescription" class="form-label">Descrizione</label>
+                <textarea asp-for="Description" type="text" class="form-control" id="pizzaDescription" placeholder="Descrivi in modo succoso la tua pizza"></textarea>
+            </div>
+        </div>
+            <button type="submit" class="btn btn-primary m-3 align-self-baseline">Submit</button>
+    </div>
+</form>

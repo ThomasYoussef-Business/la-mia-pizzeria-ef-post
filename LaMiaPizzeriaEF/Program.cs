@@ -3,7 +3,7 @@ global using Microsoft.EntityFrameworkCore.Design;
 global using Microsoft.EntityFrameworkCore.SqlServer;
 global using System.ComponentModel.DataAnnotations.Schema;
 global using System.ComponentModel.DataAnnotations;
-
+global using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 

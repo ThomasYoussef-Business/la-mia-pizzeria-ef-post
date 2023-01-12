@@ -17,6 +17,10 @@ namespace LaMiaPizzeriaEF.Controllers {
             return View(pizza);
         }
 
+        public IActionResult New() {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult New(Pizza pizza) {
