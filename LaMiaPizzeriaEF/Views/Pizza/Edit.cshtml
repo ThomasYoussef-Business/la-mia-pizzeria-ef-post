@@ -3,7 +3,7 @@
     Layout = "_Header";
 }
 
-<form asp-controller="Pizza" asp-action="New" method="post">
+<form id="UpdateForm" asp-controller="Pizza" asp-action="Edit" asp-route-id="@Model.Id" method="post">
     @Html.AntiForgeryToken()
     <div class="container-fluid d-flex flex-column align-items-center my-3">
         <div class="row g-5 w-100">
@@ -31,6 +31,6 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
         </div>
-            <button type="submit" class="btn btn-primary m-3 align-self-baseline">Submit</button>
+        <button type="submit" form="UpdateForm" class="btn btn-primary m-3 align-self-baseline">Save Changes</button>
     </div>
 </form>

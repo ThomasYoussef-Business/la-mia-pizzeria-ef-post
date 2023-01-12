@@ -2,8 +2,8 @@
 @{
     Layout = "_Header";
 
-    void PizzaCard(Pizza pizza) {
-        <div class="col-lg-4 col d-flex justify-content-center">
+    async Task PizzaCard(Pizza pizza) {
+        <div class="col-lg-4 col-12 d-flex justify-content-center">
             <div class="card" style="width: 18rem;">
                 <img src="@pizza.PictureUrl" class="card-img-top" alt="...">
                 <div class="card-body">
@@ -14,6 +14,19 @@
                             info
                         </span>
                     </a>
+                    <a href="@Url.Action("Edit", "Pizza", new {id=pizza.Id})" class="btn btn-warning">
+                        <span class="material-symbols-outlined m-0">
+                            edit
+                        </span>
+                    </a>
+                    <form asp-action="Delete" asp-controller="Pizza" asp-route-id="@pizza.Id" method="post" class="d-inline-block">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-danger">
+                            <span class="material-symbols-outlined m-0">
+                                delete_forever
+                            </span>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -23,7 +36,7 @@
 <div class="container mt-5">
     <div class="row g-5 align-content-between">
         @if (Model == null || !Model.Any()) {
-            <div class="col-lg-4 col d-flex justify-content-center">
+            <div class="col-lg-4 col-12 d-flex justify-content-center">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">Non ci sono pizze nell'applicazione :(</h5>
@@ -34,7 +47,7 @@
         }
         else {
             foreach (var pizza in Model) {
-                PizzaCard(pizza);
+                await PizzaCard(pizza);
             }
         }
     </div>

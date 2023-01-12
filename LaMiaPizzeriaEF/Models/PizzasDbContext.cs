@@ -11,5 +11,12 @@
             Pizzas.Add(pizza);
             return SaveChanges();
         }
+
+        public int DeletePizza(int id) {
+            if (Pizzas.Find(id) is Pizza pizzaToRemove) {
+                Pizzas.Remove(pizzaToRemove);
+            }
+            return SaveChanges();
+        }
     }
 }

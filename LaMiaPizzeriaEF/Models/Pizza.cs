@@ -13,16 +13,36 @@
         [Key]
         public int Id { get; set; }
         [Required(ErrorMessage = "Il campo è obbligatorio.")]
+        [StringLength(50, ErrorMessage = "Il nome della pizza non può essere più lungo di 50 caratteri.")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Il campo è obbligatorio.")]
+        [StringLength(200, ErrorMessage = "La descrizione della pizza non può essere più lunga di 200 caratteri.")]
         public string Description { get; set; }
         [Required(ErrorMessage = "Il campo è obbligatorio.")]
         [Range(0, double.MaxValue, ErrorMessage = "Il prezzo non può essere negativo.")]
         [Column(TypeName = "decimal(18, 2)")]
         public double Price { get; set; }
         [Required(ErrorMessage = "Il campo è obbligatorio.")]
+        [Url(ErrorMessage = "Il link alla foto deve essere un URL valido.")]
+        [EndsWith(".png", ".jpg", ".jpeg", ".webp")]
         public string PictureUrl { get; set; }
+    }
 
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
+    sealed public class EndsWithAttribute : ValidationAttribute {
+        public string[] ValidEnds { get; init; }
+        public EndsWithAttribute(params string[] validEnds) {
+            ValidEnds = validEnds;
+        }
 
+        public override bool IsValid(object? value) {
+            if (value is not string castedValue) { return false; }
+
+            foreach (string validEnd in ValidEnds) {
+                if (castedValue.EndsWith(validEnd)) { return true; }
+            }
+
+            return false;
+        }
     }
 }

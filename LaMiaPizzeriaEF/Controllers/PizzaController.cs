@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LaMiaPizzeriaEF.Controllers {
     public class PizzaController : Controller {
+        // MAIN PAGE
         [Route("/pizze")]
         public IActionResult Index() {
             using var db = new PizzasDbContext();
@@ -17,6 +18,7 @@ namespace LaMiaPizzeriaEF.Controllers {
             return View(pizza);
         }
 
+        // ADD A NEW PIZZA
         public IActionResult New() {
             return View();
         }
@@ -33,7 +35,57 @@ namespace LaMiaPizzeriaEF.Controllers {
                 Console.WriteLine(modifications);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
+        }
+
+        // DELETE A PIZZA
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id) {
+            using PizzasDbContext db = new();
+            int deletedItems = db.DeletePizza(id);
+
+            if (deletedItems > 0) {
+                return RedirectToAction(nameof(Index));
+            }
+            else {
+                return NotFound();
+            }
+        }
+
+        // EDIT A PIZZA
+        public IActionResult Edit(int id) {
+            using PizzasDbContext db = new();
+            if (db.Pizzas.Find(id) is Pizza pizzaToEdit) {
+                return View(pizzaToEdit);
+            }
+            else {
+                return NotFound();
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, Pizza pizza) {
+            if (!ModelState.IsValid) {
+                return View(pizza);
+            }
+
+            using (var db = new PizzasDbContext()) {
+
+                if (db.Pizzas.FirstOrDefault(p => p.Id == id) is Pizza pizzaToModify) {
+                    pizzaToModify.Name = pizza.Name;
+                    pizzaToModify.Description = pizza.Description;
+                    pizzaToModify.Price = pizza.Price;
+                    pizzaToModify.PictureUrl = pizza.PictureUrl;
+                    db.SaveChanges();
+                }
+                else {
+                    return NotFound();
+                }
+            }
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
