@@ -27,22 +27,4 @@
         [EndsWith(".png", ".jpg", ".jpeg", ".webp")]
         public string PictureUrl { get; set; }
     }
-
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
-    sealed public class EndsWithAttribute : ValidationAttribute {
-        public string[] ValidEnds { get; init; }
-        public EndsWithAttribute(params string[] validEnds) {
-            ValidEnds = validEnds;
-        }
-
-        public override bool IsValid(object? value) {
-            if (value is not string castedValue) { return false; }
-
-            foreach (string validEnd in ValidEnds) {
-                if (castedValue.EndsWith(validEnd)) { return true; }
-            }
-
-            return false;
-        }
-    }
 }
